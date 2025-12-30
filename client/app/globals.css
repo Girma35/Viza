@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-color: #ffffff;
+  --text-color: #121212;
+}
+
+.dark {
+  --bg-color: #121212;
+  --text-color: #ffffff;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+::selection {
+  background: #e10098;
+  /* Verge-ish Pink */
+  color: white;
+}
+
+/* Sharp Utilities */
+.verge-gradient-text {
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-image: linear-gradient(90deg, #FA709A 0%, #FEE140 100%);
+}
+
+.verge-border-top {
+  border-top: 3px solid;
+  border-image: linear-gradient(to right, #e10098, #6f00ff) 1;
+}

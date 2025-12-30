@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NexusTech | Leading AI & Tech Intelligence</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            midnight: '#050505',
+            brand: {
+              cream: '#fdf2d0',     /* Soft Vanilla */
+              pearl: '#fffef2',     /* Pearl White */
+              sky: '#b9d7fb',       /* Sky Blue */
+              ocean: '#84a5ff',     /* Electric Blue */
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --bg-color: #fffef2;
+      --text-color: #0f172a;
+    }
+    .dark {
+      --bg-color: #050505;
+      --text-color: #f8fafc;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: background-color 0.5s ease, color 0.5s ease;
+      scrollbar-width: thin;
+      scrollbar-color: #334155 #050505;
+    }
+
+    .dark body {
+      background-image: radial-gradient(circle at top right, rgba(132, 165, 255, 0.05), transparent 40%),
+                        radial-gradient(circle at bottom left, rgba(253, 242, 208, 0.03), transparent 30%);
+    }
+    
+    .light-body-bg {
+      background-image: radial-gradient(circle at top right, rgba(132, 165, 255, 0.1), transparent 40%),
+                        radial-gradient(circle at bottom left, rgba(253, 242, 208, 0.2), transparent 30%);
+    }
+
+    .glass {
+      background: rgba(15, 23, 42, 0.03);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(132, 165, 255, 0.1);
+    }
+    .dark .glass {
+      background: rgba(15, 23, 42, 0.3);
+      border: 1px solid rgba(185, 215, 251, 0.1);
+    }
+
+    .text-gradient-brand {
+      background: linear-gradient(135deg, #fdf2d0 0%, #84a5ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .border-gradient-brand {
+      border-image: linear-gradient(to right, #fdf2d0, #b9d7fb, #84a5ff) 1;
+    }
+    ::selection {
+      background: #84a5ff;
+      color: #050505;
+    }
+  </style>
+<script type="importmap">
+{
+  "imports": {
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="transition-colors duration-500">
+  <div id="root"></div>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
