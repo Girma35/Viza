@@ -1,6 +1,5 @@
 import React from 'react';
 import { Post } from '../types';
-import { Hash } from 'lucide-react';
 
 interface SidebarProps {
     posts: Post[];
@@ -8,43 +7,46 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ posts }) => {
     return (
-        <aside className="lg:col-span-4 hidden lg:block border-l px-8 border-zinc-200 dark:border-zinc-800">
-            <div className="sticky top-32 flex flex-col gap-8">
-                {/* Header */}
-                <div className="pb-4 border-b-4 border-black dark:border-white">
-                    <h3 className="text-xl font-black uppercase tracking-tighter text-zinc-900 dark:text-white flex items-center gap-2">
-                        <Hash size={20} className="text-fuchsia-600" />
-                        Most Popular
-                    </h3>
+        <aside className="sticky top-24 flex flex-col gap-16 h-fit">
+            {/* Print Edition Promo (Magazine Style) */}
+            <div className="flex flex-col gap-4">
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] opacity-50">Printmagazine</span>
+                <div className="text-4xl font-black tracking-tighter uppercase mb-2">03/2024</div>
+                <div className="relative aspect-[3/4] overflow-hidden bg-black flex items-center justify-center p-8 text-white group cursor-pointer">
+                    <img
+                        src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=1000&auto=format&fit=crop"
+                        alt="Magazine Cover"
+                        className="absolute inset-0 w-full h-full object-cover opacity-60 grayscale group-hover:scale-110 transition-transform duration-1000"
+                    />
+                    <div className="relative z-10 flex flex-col items-center gap-4 text-center">
+                        <div className="text-6xl font-black italic tracking-tighter">VIZA</div>
+                        <div className="text-[10px] font-black uppercase tracking-[0.4em] border-t border-b border-white/40 py-1">Magazine</div>
+                    </div>
                 </div>
+                <button className="w-full py-4 bg-black text-white dark:bg-white dark:text-black font-black uppercase tracking-[0.2em] text-[10px] hover:invert transition-all">
+                    Purchase Copy
+                </button>
+            </div>
 
-                {/* Numbered List - Verge Style */}
-                <div className="flex flex-col gap-0">
-                    {posts.slice(0, 5).map((p, idx) => (
-                        <a key={p.id} href={`/article/${p.slug}`} className="group flex gap-4 items-start py-4 border-b border-zinc-100 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900/50 -mx-4 px-4 transition-colors">
-                            <span className="text-3xl font-black text-zinc-200 dark:text-zinc-800 group-hover:text-fuchsia-600 transition-colors">
-                                {(idx + 1).toString()}
-                            </span>
-                            <div className="flex flex-col pt-1">
-                                <h4 className="font-bold text-lg text-zinc-900 dark:text-white leading-[1.1] group-hover:underline underline-offset-2 decoration-2 decoration-fuchsia-600">
-                                    {p.title}
-                                </h4>
-                                <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 mt-2">
-                                    {p.category}
-                                </span>
+            {/* Most Popular List */}
+            <div className="flex flex-col gap-8">
+                <div className="magazine-border-b pb-4">
+                    <h3 className="text-xs font-black uppercase tracking-[0.3em] opacity-50">Most Popular</h3>
+                </div>
+                <div className="flex flex-col gap-0 divide-y divide-black/10 dark:divide-white/10">
+                    {posts.slice(0, 3).map((p, idx) => (
+                        <a key={p.id} href={`/article/${p.slug}`} className="group block py-6 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black -mx-4 px-4 transition-all">
+                            <div className="flex gap-6 items-start">
+                                <span className="text-lg font-black opacity-30 group-hover:opacity-100 italic tracking-tighter">0{idx + 1}</span>
+                                <div className="flex flex-col gap-2">
+                                    <h4 className="text-xl font-black leading-tight group-hover:underline underline-offset-4 decoration-2">{p.title}</h4>
+                                    <div className="flex justify-between items-center text-[8px] font-black uppercase tracking-widest opacity-50 group-hover:opacity-100">
+                                        <span>Text: {p.author.name}</span>
+                                    </div>
+                                </div>
                             </div>
                         </a>
                     ))}
-                </div>
-
-                {/* Sharp Ad-like Box (Self Promo) */}
-                <div className="mt-8 bg-zinc-900 dark:bg-white text-white dark:text-black p-6">
-                    <span className="block text-fuchsia-500 mb-2 text-xs font-black uppercase tracking-[0.2em]">Newsletter</span>
-                    <h3 className="text-2xl font-black leading-none mb-4">Command Line</h3>
-                    <p className="text-sm font-medium opacity-80 mb-6">Daily updates from the AI frontier.</p>
-                    <button className="w-full py-3 bg-white dark:bg-black text-black dark:text-white font-black uppercase tracking-widest text-xs hover:bg-fuchsia-500 hover:text-white transition-colors">
-                        Subscribe
-                    </button>
                 </div>
             </div>
         </aside>

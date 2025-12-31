@@ -10,47 +10,61 @@ interface HeroGridProps {
 
 const HeroGrid: React.FC<HeroGridProps> = ({ featured, trending }) => {
   return (
-    <div className="mb-24 border-b-4 border-black dark:border-white pb-12">
-      {/* Verge-style Mosaic: 1 Big Left, 2 Stacked Right */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-x-8 gap-y-12">
+    <div className="py-12">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
 
-        {/* [Left Column] THE LEAD STORY (2/3 width) */}
-        <div className="lg:col-span-2 group">
-          <a href={`/article/${featured.slug}`} className="block relative aspect-[16/9] mb-6 overflow-hidden bg-zinc-900">
-            <img
-              src={featured.image}
-              alt={featured.title}
-              className="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
-            />
+        {/* Main Story */}
+        <div className="lg:col-span-8 flex flex-col gap-8">
+          <a href={`/article/${featured.slug}`} className="block group overflow-hidden">
+            <h1 className="text-6xl md:text-8xl font-black leading-[0.85] tracking-tighter mb-8 hover:opacity-70 transition-opacity">
+              {featured.title}
+            </h1>
           </a>
-          <div className="flex flex-col gap-4 max-w-2xl">
-            <a href={`/article/${featured.slug}`} className="hover:text-fuchsia-600 dark:hover:text-fuchsia-400 transition-colors">
-              <h1 className="text-4xl md:text-6xl font-black text-zinc-900 dark:text-white leading-[0.95] tracking-tighter">
-                {featured.title}
-              </h1>
-            </a>
-            <p className="text-xl md:text-2xl text-zinc-600 dark:text-zinc-400 font-medium leading-normal">
-              {featured.excerpt}
-            </p>
-            <div className="flex items-center gap-2 mt-2">
-              <span className="px-1 py-0.5 bg-fuchsia-600 text-white text-[10px] font-bold uppercase tracking-widest">{featured.category}</span>
-              <span className="text-xs font-bold text-zinc-900 dark:text-white uppercase">By {featured.author.name}</span>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+            <div className="aspect-[4/5] overflow-hidden">
+              <img
+                src={featured.image}
+                alt={featured.title}
+                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+              />
+            </div>
+            <div className="flex flex-col gap-6">
+              <p className="text-lg font-medium leading-relaxed uppercase opacity-80">
+                {featured.excerpt}
+              </p>
+              <div className="flex flex-col gap-2 pt-6 border-t border-black dark:border-white">
+                <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest">
+                  <span>{featured.author.name}</span>
+                  <span>{featured.publishedAt || 'March 2024'}</span>
+                </div>
+                <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest opacity-50">
+                  <span>{featured.category}</span>
+                  <span>{featured.readingTime || '5 MIN'} READ</span>
+                </div>
+              </div>
+              <a href={`/article/${featured.slug}`} className="inline-flex items-center justify-center border border-black dark:border-white py-4 mt-4 font-black uppercase tracking-widest text-xs hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">
+                Read Intelligence
+              </a>
             </div>
           </div>
         </div>
 
-        {/* [Right Column] TOP STORIES STACK (1/3 width) */}
-        <div className="lg:col-span-1 flex flex-col border-t-4 border-black dark:border-white lg:border-t-0 lg:border-l lg:pl-8">
-          <div className="flex items-center justify-between mb-6 pt-2 lg:pt-0">
-            <h2 className="text-sm font-black uppercase tracking-widest text-fuchsia-600">Top Stories</h2>
-            <ArrowUpRight size={16} />
-          </div>
-
-          <div className="flex flex-col divide-y divide-zinc-200 dark:divide-zinc-800">
-            {trending.map((post) => (
-              <div key={post.id} className="py-6 first:pt-0 last:pb-0">
-                <PostCard post={post} variant="compact" />
-              </div>
+        {/* Trending Column */}
+        <div className="lg:col-span-4 lg:magazine-border-l lg:pl-12">
+          <h2 className="text-xs font-black uppercase tracking-[0.3em] mb-8 opacity-50">Editor's Choice</h2>
+          <div className="space-y-12">
+            {trending.map((post, idx) => (
+              <a href={`/article/${post.slug}`} key={post.id} className="block group">
+                <div className="flex flex-col gap-4">
+                  <span className="text-4xl font-black opacity-10 group-hover:opacity-100 transition-opacity">0{idx + 1}</span>
+                  <h3 className="text-xl leading-tight group-hover:underline decoration-2 underline-offset-4">{post.title}</h3>
+                  <div className="flex items-center gap-4 text-[9px] font-black uppercase tracking-widest opacity-50">
+                    <span>{post.category}</span>
+                    <span>{post.author.name}</span>
+                  </div>
+                </div>
+              </a>
             ))}
           </div>
         </div>

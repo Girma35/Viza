@@ -1,34 +1,32 @@
 import React from 'react';
 import { Post } from '../types';
 import PostCard from './PostCard';
+import { ArrowRight } from 'lucide-react';
 
 interface CategorySiloProps {
   title: string;
   posts: Post[];
   accentColor?: string;
-  injectAdAt?: number; // Deprecated but kept for compatibility
 }
 
-const CategorySilo: React.FC<CategorySiloProps> = ({ title, posts, accentColor = 'bg-blue-500' }) => {
+const CategorySilo: React.FC<CategorySiloProps> = ({ title, posts }) => {
   return (
-    <section className="mb-24">
-      <div className="flex items-end justify-between mb-10 pb-4 border-b border-slate-200 dark:border-white/[0.05]">
-        <div className="flex flex-col gap-2">
-          <span className="text-[10px] font-black text-brand-ocean dark:text-brand-sky uppercase tracking-[0.3em]">Explore</span>
-          <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight">{title}</h2>
-        </div>
-        <a href="#" className="hidden md:block px-6 py-3 rounded-xl bg-slate-100 dark:bg-white/[0.03] hover:bg-brand-ocean hover:text-white dark:hover:bg-brand-ocean transition-all duration-300 text-[10px] font-black uppercase tracking-[0.2em]">
-          View All {title}
+    <div className="py-12">
+      <div className="flex justify-between items-end mb-12 magazine-border-b pb-4">
+        <h2 className="text-4xl font-black tracking-tighter uppercase">{title}</h2>
+        <a href={`/category/${title.toLowerCase().replace(' ', '-')}`} className="text-[10px] font-black uppercase tracking-widest hover:opacity-50 transition-opacity flex items-center gap-2">
+          See All <ArrowRight size={14} />
         </a>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 gap-y-12">
-        {posts.map((post) => (
-          <React.Fragment key={post.id}>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
+        {posts.map((post, idx) => (
+          <div key={post.id} className={`pb-12 md:pb-0 ${idx !== posts.length - 1 ? 'md:pr-8 md:magazine-border-r' : ''} ${idx !== 0 ? 'md:pl-8' : ''}`}>
             <PostCard post={post} />
-          </React.Fragment>
+          </div>
         ))}
       </div>
-    </section>
+    </div>
   );
 };
 

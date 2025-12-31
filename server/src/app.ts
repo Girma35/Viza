@@ -23,20 +23,19 @@ export async function buildApp() {
 
   await app.register(cors, {
     origin: process.env.CLIENT_URL || 'http://localhost:3000',
-    credentials: true, // IMPORTANT: Allows cookies to be sent back and forth
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-admin-bypass'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
   });
 
-  // 1. THE AUTH BRIDGE: Hand over all /api/auth/* requests to Better-Auth
+
   app.all("/api/auth/*", (request, reply) => {
     return toFastifyHandler(auth)(request, reply);
   });
 
-  // Plugins are loaded before routes
   await app.register(autoload, {
     dir: join(__dirname, 'plugins'),
   });
-
-  // Automatically load all routes from the routes directory
   await app.register(autoload, {
     dir: join(__dirname, 'routes'),
     options: { prefix: '/api' },
@@ -44,3 +43,4 @@ export async function buildApp() {
 
   return app;
 }
+

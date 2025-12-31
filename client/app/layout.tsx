@@ -13,7 +13,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-    title: "NexusTech | Leading AI & Tech Intelligence",
+    title: "Viza | Leading AI & Tech Intelligence",
     description: "The global benchmark for technology and business intelligence.",
 };
 
@@ -23,7 +23,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" className="dark" suppressHydrationWarning>
+        <html lang="en" className="light" suppressHydrationWarning>
             <body
                 className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}
                 suppressHydrationWarning

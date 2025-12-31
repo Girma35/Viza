@@ -25,9 +25,14 @@ export const auth = betterAuth({
     trustedOrigins: [process.env.CLIENT_URL || "http://localhost:3000"],
 });
 
+
+
+
 type Auth = typeof auth;
 
 export const toFastifyHandler = (auth: Auth) => {
+
+
     return async (request: FastifyRequest, reply: FastifyReply) => {
         const fullUrl = `${request.protocol}://${request.hostname}${request.url}`;
         const res = await auth.handler(
@@ -39,10 +44,23 @@ export const toFastifyHandler = (auth: Auth) => {
         );
 
         reply.status(res.status);
+
+        // 1. Get all headers from the Better-Auth response
         res.headers.forEach((value, key) => {
-            reply.header(key, value);
+            if (key.toLowerCase() !== 'set-cookie') {
+                reply.header(key, value);
+            }
         });
+
+        // 2. IMPORTANT: Extract and send cookies separately to avoid mangling
+        // Use the modern getSetCookie() method to handle multiple cookies
+        const setCookies = (res.headers as any).getSetCookie ? (res.headers as any).getSetCookie() : [];
+        if (setCookies.length > 0) {
+            reply.header('set-cookie', setCookies);
+        }
 
         return reply.send(await res.arrayBuffer());
     };
 };
+
+

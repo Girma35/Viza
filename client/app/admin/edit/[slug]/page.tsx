@@ -4,49 +4,27 @@ import React, { useState, useEffect, Suspense } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Button from '@/components/Button';
-import { createPost, type CreatePostPayload } from '@/services/api';
+import { getPostBySlug, updatePost, type CreatePostPayload } from '@/services/api';
 import { authClient } from '@/services/auth-client';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import {
-    FileText,
-    User,
-    Image as ImageIcon,
-    Clock,
     CheckCircle2,
     ArrowLeft,
-    Calendar,
-    Globe,
     AlertCircle
 } from 'lucide-react';
 import Link from 'next/link';
 
-function AdminConsole() {
+function EditConsole() {
     const router = useRouter();
+    const params = useParams();
     const searchParams = useSearchParams();
     const { data: session, isPending } = authClient.useSession();
 
-    const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL?.toLowerCase().trim();
-    const bypassKey = process.env.NEXT_PUBLIC_ADMIN_BYPASS_KEY;
-    const providedKey = searchParams.get('key');
+    const [loading, setLoading] = useState(true);
+    const [submitting, setSubmitting] = useState(false);
+    const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
 
-    useEffect(() => {
-        const sessionEmail = session?.user?.email?.toLowerCase().trim();
-
-        if (providedKey && providedKey === bypassKey) {
-            console.log("Admin Secret Key Verified. Access Granted.");
-            return;
-        }
-
-        if (!isPending) {
-            if (!session || sessionEmail !== adminEmail) {
-                console.log("Unauthorized identity detected. Redirecting.");
-                router.push('/');
-                return;
-            }
-        }
-    }, [session, isPending, router, adminEmail, providedKey, bypassKey]);
-
-    const initialFormState = {
+    const [formData, setFormData] = useState<CreatePostPayload>({
         slug: '',
         title: '',
         excerpt: '',
@@ -54,35 +32,76 @@ function AdminConsole() {
         category: 'AI Lab',
         authorName: '',
         authorAvatar: '',
-        publishedAt: new Date().toISOString().split('T')[0],
+        publishedAt: '',
         readingTime: '',
         image: '',
         isFeatured: false,
         isTrending: false
-    };
+    });
 
-    const [formData, setFormData] = useState(initialFormState);
-    const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState<{ type: 'success' | 'error', text: string, slug?: string } | null>(null);
+    const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL?.toLowerCase().trim();
+    const bypassKey = process.env.NEXT_PUBLIC_ADMIN_BYPASS_KEY;
+    const providedKey = searchParams.get('key');
+
+    const isAdmin = (session?.user?.email?.toLowerCase().trim() === adminEmail) || (providedKey === bypassKey);
+
+    useEffect(() => {
+        if (!isPending && !isAdmin) {
+            router.push('/');
+            return;
+        }
+
+        if (isAdmin && params.slug) {
+            fetchPost();
+        }
+    }, [isAdmin, isPending, params.slug]);
+
+    const fetchPost = async () => {
+        try {
+            const post = await getPostBySlug(params.slug as string);
+            setFormData({
+                slug: post.slug,
+                title: post.title,
+                excerpt: post.excerpt || '',
+                content: post.content || '',
+                category: post.category,
+                authorName: post.author.name,
+                authorAvatar: post.author.avatar || '',
+                publishedAt: post.publishedAt ? new Date(post.publishedAt).toISOString().split('T')[0] : '',
+                readingTime: post.readingTime || '',
+                image: post.image || '',
+                isFeatured: post.isFeatured || false,
+                isTrending: post.isTrending || false
+            });
+        } catch (error) {
+            console.error("Failed to fetch post:", error);
+            setMessage({ type: 'error', text: 'FAILED TO LOAD MANUSCRIPT.' });
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setLoading(true);
+        setSubmitting(true);
         setMessage(null);
 
         try {
-            await createPost(formData, providedKey || undefined);
+            await updatePost(params.slug as string, formData, providedKey || undefined);
             setMessage({
                 type: 'success',
-                text: 'PUBLISHED SUCCESSFULLY TO THE VIZA FEED.',
-                slug: formData.slug
+                text: 'MANUSCRIPT UPDATED SUCCESSFULLY.'
             });
-            setFormData(initialFormState);
-        } catch (error) {
-            setMessage({ type: 'error', text: 'AUTHORIZATION FAILED OR NETWORK ERROR.' });
+            // If slug changed, redirect to new slug's edit page
+            if (formData.slug !== params.slug) {
+                router.push(`/admin/edit/${formData.slug}?key=${providedKey || ''}`);
+            }
+        } catch (error: any) {
+            const errorMsg = error.response?.data?.message || error.response?.data?.error || 'UPDATE FAILED. CHECK PERMISSIONS.';
+            setMessage({ type: 'error', text: errorMsg.toUpperCase() });
             console.error(error);
         } finally {
-            setLoading(false);
+            setSubmitting(false);
         }
     };
 
@@ -96,25 +115,10 @@ function AdminConsole() {
         }
     };
 
-    const isAdmin = (session?.user?.email?.toLowerCase().trim() === adminEmail) || (providedKey === bypassKey);
-
-    if (isPending && !providedKey) {
+    if (isPending || loading) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-white dark:bg-black">
                 <div className="w-12 h-12 border-4 border-black dark:border-white border-t-transparent rounded-full animate-spin" />
-            </div>
-        );
-    }
-
-    if (!isAdmin && !isPending) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-white dark:bg-black">
-                <div className="text-center space-y-4">
-                    <p className="text-[10px] font-black uppercase tracking-[0.3em]">Identity Not Verified</p>
-                    <Link href="/">
-                        <Button variant="secondary" className="rounded-none bg-black text-white dark:bg-white dark:text-black">Exit Workspace</Button>
-                    </Link>
-                </div>
             </div>
         );
     }
@@ -132,25 +136,14 @@ function AdminConsole() {
                     {/* Header */}
                     <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 py-12 magazine-border-b mb-16">
                         <div className="space-y-2">
-                            <span className="text-[10px] font-black uppercase tracking-[0.4em] opacity-40">Administrative Access</span>
+                            <span className="text-[10px] font-black uppercase tracking-[0.4em] opacity-40">Revision Console</span>
                             <h1 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.8]">
-                                Studio<br />Console
+                                Edit<br />Manuscript
                             </h1>
                         </div>
-                        <div className="flex gap-6 pb-2">
-                            <button
-                                onClick={() => router.push(`/admin/manage?key=${providedKey || ''}`)}
-                                className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest hover:opacity-50 transition-opacity"
-                            >
-                                <FileText size={14} /> Manage Library
-                            </button>
-                            <button
-                                onClick={() => router.push('/')}
-                                className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest hover:opacity-50 transition-opacity"
-                            >
-                                <ArrowLeft size={14} /> Finish & Exit
-                            </button>
-                        </div>
+                        <button onClick={() => router.push(`/admin/manage?key=${providedKey || ''}`)} className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest hover:opacity-50 transition-opacity pb-2">
+                            <ArrowLeft size={14} /> Back to Library
+                        </button>
                     </div>
 
                     <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-16">
@@ -164,11 +157,7 @@ function AdminConsole() {
                                         {message.type === 'success' ? <CheckCircle2 size={16} /> : <AlertCircle size={16} />}
                                         {message.text}
                                     </div>
-                                    {message.type === 'success' && message.slug && (
-                                        <Link href={`/article/${message.slug}`} className="text-[10px] font-black uppercase tracking-widest underline underline-offset-4 decoration-2">
-                                            View Published Article →
-                                        </Link>
-                                    )}
+                                    <button onClick={() => setMessage(null)} className="text-[9px] font-black uppercase tracking-widest self-start opacity-50 hover:opacity-100">Dismiss</button>
                                 </div>
                             )}
 
@@ -332,16 +321,16 @@ function AdminConsole() {
 
                                 <button
                                     type="submit"
-                                    disabled={loading}
+                                    disabled={submitting}
                                     className="w-full py-6 bg-black text-white dark:bg-white dark:text-black font-black uppercase tracking-[0.3em] text-xs hover:invert transition-all flex items-center justify-center gap-4"
                                 >
-                                    {loading ? (
+                                    {submitting ? (
                                         <>
                                             <div className="w-4 h-4 border-2 border-white/30 dark:border-black/30 border-t-white dark:border-t-black rounded-full animate-spin" />
-                                            <span>Processing...</span>
+                                            <span>Updating...</span>
                                         </>
                                     ) : (
-                                        <span>Deploy Intelligence</span>
+                                        <span>Apply Revisions</span>
                                     )}
                                 </button>
                             </div>
@@ -356,14 +345,10 @@ function AdminConsole() {
     );
 }
 
-export default function AdminPage() {
+export default function EditPage() {
     return (
-        <Suspense fallback={
-            <div className="min-h-screen flex items-center justify-center bg-white dark:bg-black">
-                <div className="w-12 h-12 border-4 border-black dark:border-white border-t-transparent rounded-full animate-spin" />
-            </div>
-        }>
-            <AdminConsole />
+        <Suspense fallback={null}>
+            <EditConsole />
         </Suspense>
     );
 }

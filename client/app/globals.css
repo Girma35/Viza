@@ -4,12 +4,16 @@
 
 :root {
   --bg-color: #ffffff;
-  --text-color: #121212;
+  --text-color: #000000;
+  --border-color: #000000;
+  --accent-color: #f7f7f7;
 }
 
 .dark {
-  --bg-color: #121212;
+  --bg-color: #0a0a0a;
   --text-color: #ffffff;
+  --border-color: #333333;
+  --accent-color: #1a1a1a;
 }
 
 body {
@@ -19,21 +23,77 @@ body {
   font-feature-settings: "rlig" 1, "calt" 1;
 }
 
+@layer base {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-sans font-black uppercase tracking-tight;
+  }
+}
+
+/* Magazine Borders */
+.magazine-border-b {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.magazine-border-t {
+  border-top: 1px solid var(--border-color);
+}
+
+.magazine-border-l {
+  border-left: 1px solid var(--border-color);
+}
+
+.magazine-border-r {
+  border-right: 1px solid var(--border-color);
+}
+
+/* Giant Magazine Header */
+.giant-header {
+  font-size: clamp(4rem, 15vw, 12rem);
+  line-height: 0.8;
+  letter-spacing: -0.05em;
+}
+
+/* News Ticker Animation */
+@keyframes ticker {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-ticker {
+  display: flex;
+  white-space: nowrap;
+  animation: ticker 30s linear infinite;
+}
+
+.ticker-container {
+  overflow: hidden;
+  background: #000;
+  color: #fff;
+  padding: 0.75rem 0;
+  text-transform: uppercase;
+  font-weight: 900;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+}
+
+/* Selection */
 ::selection {
-  background: #e10098;
-  /* Verge-ish Pink */
-  color: white;
+  background: #000;
+  color: #fff;
 }
 
-/* Sharp Utilities */
-.verge-gradient-text {
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-image: linear-gradient(90deg, #FA709A 0%, #FEE140 100%);
-}
-
-.verge-border-top {
-  border-top: 3px solid;
-  border-image: linear-gradient(to right, #e10098, #6f00ff) 1;
+.dark ::selection {
+  background: #fff;
+  color: #000;
 }

@@ -1,64 +1,62 @@
 import React from 'react';
-import Button from './Button';
 
 const Footer: React.FC = () => {
     return (
-        <footer className="bg-brand-pearl dark:bg-midnight border-t border-slate-200 dark:border-white/[0.05] py-20 mt-32 transition-colors duration-500">
+        <footer className="bg-white dark:bg-black border-t border-black dark:border-white py-24 mt-32 transition-colors duration-500">
             <div className="container mx-auto px-4">
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
-                    <div className="md:col-span-5">
-                        <h2 className="text-3xl font-black italic tracking-tighter mb-6 text-slate-900 dark:text-white transition-colors">
-                            NEXUS<span className="text-brand-ocean">TECH</span>
-                        </h2>
-                        <p className="text-slate-600 dark:text-slate-500 max-w-sm font-light leading-relaxed mb-8">
-                            The global benchmark for technology and business intelligence. We decode the future for leaders who build it.
-                        </p>
-                        <div className="flex gap-4">
-                            <input
-                                type="email"
-                                placeholder="Email Address"
-                                className="bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.1] rounded-xl px-4 py-2.5 text-xs text-slate-900 dark:text-slate-300 focus:outline-none focus:border-brand-ocean transition-colors w-full max-w-[240px]"
-                            />
-                            <Button variant="secondary">
-                                Join
-                            </Button>
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-16">
+                    <div className="md:col-span-5 flex flex-col justify-between">
+                        <div>
+                            <h2 className="text-6xl font-black tracking-tighter mb-8">
+                                VIZA
+                            </h2>
+                            <p className="text-black dark:text-white max-w-sm font-medium uppercase leading-relaxed mb-12 opacity-70">
+                                The global benchmark for technology and business intelligence. We decode the future for leaders who build it.
+                            </p>
+                        </div>
+
+                        <div className="flex flex-col gap-4">
+                            <span className="text-[10px] font-black uppercase tracking-widest opacity-50">Newsletter Intelligence</span>
+                            <div className="flex gap-0 max-w-md border border-black dark:border-white">
+                                <input
+                                    type="email"
+                                    placeholder="Enter Email"
+                                    className="bg-transparent border-none px-6 py-4 text-[10px] font-black uppercase tracking-widest focus:outline-none flex-grow"
+                                />
+                                <button className="bg-black text-white dark:bg-white dark:text-black px-8 py-4 text-[10px] font-black uppercase tracking-widest hover:invert transition-all">
+                                    Join
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <div className="md:col-span-2 md:col-start-7">
-                        <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-6">Verticals</h4>
-                        <ul className="flex flex-col gap-4 text-xs font-bold text-slate-500">
-                            <li><a href="#" className="hover:text-brand-ocean dark:hover:text-brand-cream transition-colors">Artificial Intelligence</a></li>
-                            <li><a href="#" className="hover:text-brand-ocean dark:hover:text-brand-sky transition-colors">Hardware Stack</a></li>
-                            <li><a href="#" className="hover:text-brand-ocean dark:hover:text-brand-ocean transition-colors">Business Strategy</a></li>
-                            <li><a href="#" className="hover:text-brand-ocean dark:hover:text-brand-pearl transition-colors">Venture Index</a></li>
-                        </ul>
-                    </div>
-                    <div className="md:col-span-2">
-                        <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-6">Company</h4>
-                        <ul className="flex flex-col gap-4 text-xs font-bold text-slate-500">
-                            <li><a href="#" className="hover:text-brand-ocean dark:hover:text-brand-sky transition-colors">About</a></li>
-                            <li><a href="#" className="hover:text-brand-ocean dark:hover:text-brand-sky transition-colors">Advertise</a></li>
-                            <li><a href="#" className="hover:text-brand-ocean dark:hover:text-brand-sky transition-colors">Careers</a></li>
-                            <li><a href="#" className="hover:text-brand-ocean dark:hover:text-brand-sky transition-colors">Contact</a></li>
-                        </ul>
-                    </div>
-                    <div className="md:col-span-2">
-                        <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-6">Support</h4>
-                        <ul className="flex flex-col gap-4 text-xs font-bold text-slate-500">
-                            <li><a href="#" className="hover:text-brand-ocean dark:hover:text-brand-sky transition-colors">Privacy</a></li>
-                            <li><a href="#" className="hover:text-brand-ocean dark:hover:text-brand-sky transition-colors">Terms</a></li>
-                            <li><a href="#" className="hover:text-brand-ocean dark:hover:text-brand-sky transition-colors">Cookies</a></li>
-                            <li><a href="#" className="hover:text-brand-ocean dark:hover:text-brand-sky transition-colors">Accessibility</a></li>
-                        </ul>
+
+                    <div className="md:col-span-7 flex flex-col justify-center items-end text-right">
+                        <div className="bg-black text-white dark:bg-white dark:text-black p-12 md:p-16 w-full max-w-2xl">
+                            <h3 className="text-4xl font-black uppercase leading-tight mb-4">
+                                Need Elite Software Developers?
+                            </h3>
+                            <p className="opacity-80 mb-10 font-medium uppercase leading-relaxed text-sm">
+                                Hire top-tier talent to build your vision. World-class engineering for your next big project.
+                            </p>
+                            <a
+                                href="https://girma.studio/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-4 text-white dark:text-black font-black uppercase tracking-widest text-[10px] group border-b border-white dark:border-black pb-1 hover:opacity-50 transition-all"
+                            >
+                                Visit Girma Studio
+                                <span className="group-hover:translate-x-2 transition-transform">→</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
-                <div className="mt-20 pt-10 border-t border-slate-200 dark:border-white/[0.03] flex flex-col md:flex-row justify-between items-center gap-6 text-[9px] text-slate-500 dark:text-slate-700 uppercase tracking-[0.4em] font-black">
-                    <span>© 2024 NEXUSTECH MEDIA GROUP. LONDON / NEW YORK / TOKYO.</span>
+
+                <div className="mt-24 pt-8 border-t border-black/10 dark:border-white/10 flex justify-between items-center text-[8px] font-black uppercase tracking-[0.3em] opacity-40">
+                    <span>© 2024 Viza Digital Magazine</span>
                     <div className="flex gap-8">
-                        <a href="#" className="hover:text-brand-ocean dark:hover:text-brand-cream transition-colors">X</a>
-                        <a href="#" className="hover:text-brand-ocean dark:hover:text-brand-sky transition-colors">LinkedIn</a>
-                        <a href="#" className="hover:text-brand-ocean dark:hover:text-brand-ocean transition-colors">YouTube</a>
-                        <a href="#" className="hover:text-brand-ocean dark:hover:text-brand-pearl transition-colors">Instagram</a>
+                        <a href="#">Privacy</a>
+                        <a href="#">Terms</a>
+                        <a href="#">Cookies</a>
                     </div>
                 </div>
             </div>
