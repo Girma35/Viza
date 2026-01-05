@@ -65,7 +65,7 @@ const Navbar: React.FC = () => {
               {isDark ? <Sun size={16} /> : <Moon size={16} />}
             </button>
             <button className="hover:opacity-60 transition-opacity"><Search size={16} /></button>
-            <a href="/admin" className="text-[10px] font-black uppercase tracking-[0.2em] border border-black dark:border-white px-4 py-1.5 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">
+            <a href="/contact" className="text-[10px] font-black uppercase tracking-[0.2em] border border-black dark:border-white px-4 py-1.5 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">
               Subscribe
             </a>
           </div>
@@ -92,9 +92,11 @@ const Navbar: React.FC = () => {
               {link.name}
             </a>
           ))}
-          <Button variant="primary" size="lg" className="rounded-none bg-black text-white dark:bg-white dark:text-black mt-auto">
-            Subscribe
-          </Button>
+          <a href="/contact" className="w-full mt-auto">
+            <Button variant="primary" size="lg" className="rounded-none bg-black text-white dark:bg-white dark:text-black w-full">
+              Subscribe
+            </Button>
+          </a>
         </div>
       )}
     </nav>

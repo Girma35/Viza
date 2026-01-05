@@ -6,7 +6,7 @@ import { getPostBySlug } from '../../../services/api';
 import Navbar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 import { Post } from '../../../types';
-import { ArrowLeft, Share2, Instagram, Twitter, Youtube } from 'lucide-react';
+import { ArrowLeft, Share2, Twitter, Send, Github } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 
 export default function ArticlePage() {
@@ -45,42 +45,75 @@ export default function ArticlePage() {
                     <span className="text-xl font-black uppercase tracking-tighter">Magazine</span>
                 </div>
 
-                {/* Hero Title Section */}
-                <div className="container mx-auto px-4 py-16 magazine-border-b">
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
-                        <div className="lg:col-span-8">
-                            <h1 className="text-6xl md:text-9xl font-black uppercase leading-[0.8] tracking-tighter mb-0">
-                                {post.title}
-                            </h1>
-                        </div>
-                        <div className="lg:col-span-4">
-                            <p className="text-lg md:text-xl font-medium leading-relaxed uppercase opacity-70">
-                                {post.excerpt}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Meta details bar */}
-                <div className="container mx-auto px-4 py-4 flex flex-wrap gap-8 justify-between items-center text-[10px] font-black uppercase tracking-widest magazine-border-b">
-                    <div className="flex gap-8">
-                        <span>Text: {post.author.name}</span>
-                        <span>Date: {post.publishedAt || '16. March 2024'}</span>
-                        <span>Read: {post.readingTime || '5 MIN'}</span>
-                    </div>
-                    <span className="border border-black dark:border-white px-4 py-1 rounded-full">{post.category}</span>
-                </div>
-
-                {/* Hero Image */}
-                <div className="container mx-auto px-4 mt-12 mb-24">
-                    <div className="aspect-[21/9] overflow-hidden grayscale hover:grayscale-0 transition-all duration-1000 bg-black">
+                {/* Cinematic Hero Section */}
+                <div className="relative w-full h-[70vh] lg:h-[85vh] overflow-hidden bg-black flex flex-col justify-end">
+                    {/* Background Layer (Atmosphere) */}
+                    <div className="absolute inset-0 z-0">
                         <img
                             src={post.image}
-                            alt={post.title}
-                            className="w-full h-full object-cover opacity-80"
+                            alt=""
+                            className="w-full h-full object-cover scale-110 blur-xl opacity-30"
                         />
                     </div>
+
+                    {/* Main Image Layer (The Subject) */}
+                    <div className="absolute inset-0 z-10 flex items-center justify-center p-4 lg:p-12">
+                        <div className="w-full h-full relative overflow-hidden magazine-border-b lg:border border-white/20">
+                            <img
+                                src={post.image}
+                                alt={post.title}
+                                className="w-full h-full object-cover hover:scale-105 transition-transform duration-[10s] ease-out"
+                            />
+                            {/* Consistent Legibility Mask */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
+                        </div>
+                    </div>
+
+                    {/* Content Layer (Always Consistent Placement) */}
+                    <div className="container mx-auto px-6 lg:px-24 pb-12 lg:pb-24 relative z-20 text-white">
+                        <div className="max-w-5xl space-y-6 lg:space-y-10">
+
+
+
+                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                                <div className="lg:col-span-12">
+                                    <p className="text-lg md:text-2xl font-medium leading-tight uppercase opacity-90 max-w-3xl border-l-4 border-white pl-6 italic">
+                                        {post.excerpt}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                {/* Refined Meta bar */}
+                <div className="bg-black text-white py-8 border-b border-white/10">
+                    <div className="container mx-auto px-6 lg:px-24 flex flex-wrap justify-between items-center text-[10px] font-black uppercase tracking-[0.4em]">
+                        <div className="flex gap-12">
+                            <div className="flex flex-col gap-1">
+                                <span className="opacity-40">Intelligence by</span>
+                                <span>{post.author.name}</span>
+                            </div>
+                            <div className="flex flex-col gap-1">
+                                <span className="opacity-40">Release Date</span>
+                                <span>{post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : '01.05.2026'}</span>
+                            </div>
+                            <div className="flex flex-col gap-1 hidden md:flex">
+                                <span className="opacity-40">Status</span>
+                                <span className="flex items-center gap-2">
+                                    <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                                    Verified
+                                </span>
+                            </div>
+                        </div>
+                        <div className="hidden lg:block text-right">
+                            <span className="opacity-30">Viza Intelligence Registry Vol. 01</span>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Space before content */}
+                <div className="py-12" />
 
                 {/* Content Area */}
                 <div className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-12 gap-16">
@@ -100,9 +133,15 @@ export default function ArticlePage() {
                             <div className="flex flex-col gap-4 border-t border-black dark:border-white pt-8">
                                 <span className="text-[10px] font-black uppercase tracking-widest opacity-50">Connect</span>
                                 <div className="flex gap-4">
-                                    <Twitter size={18} className="cursor-pointer hover:opacity-50" />
-                                    <Instagram size={18} className="cursor-pointer hover:opacity-50" />
-                                    <Youtube size={18} className="cursor-pointer hover:opacity-50" />
+                                    <a href="https://t.me/Akilephero" target="_blank" rel="noopener noreferrer">
+                                        <Send size={18} className="cursor-pointer hover:opacity-50" />
+                                    </a>
+                                    <a href="https://x.com/Girma880731631" target="_blank" rel="noopener noreferrer">
+                                        <Twitter size={18} className="cursor-pointer hover:opacity-50" />
+                                    </a>
+                                    <a href="https://github.com/Girma35" target="_blank" rel="noopener noreferrer">
+                                        <Github size={18} className="cursor-pointer hover:opacity-50" />
+                                    </a>
                                 </div>
                             </div>
 

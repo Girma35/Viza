@@ -12,11 +12,12 @@ export type CreatePostPayload = {
   publishedAt?: string;
   readingTime?: string;
   image?: string;
+  source?: string;
   isFeatured?: boolean;
   isTrending?: boolean;
 };
 
-const API_URL = `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api`;
+const API_URL = `${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api`;
 
 const api = axios.create({
   baseURL: API_URL,
@@ -50,17 +51,33 @@ export const getPostBySlug = async (slug: string): Promise<Post> => {
 };
 
 export const createPost = async (post: CreatePostPayload, bypassKey?: string): Promise<Post> => {
-  const response = await api.post<Post>("/posts", post, {
+  const response = await api.post<any>("/posts", post, {
     headers: bypassKey ? { 'x-admin-bypass': bypassKey } : {}
   });
-  return response.data;
+  const p = response.data;
+  return {
+    ...p,
+    author: {
+      id: p.id,
+      name: p.authorName,
+      avatar: p.authorAvatar || "https://api.dicebear.com/7.x/avataaars/svg?seed=fallback"
+    }
+  };
 };
 
 export const updatePost = async (slug: string, post: CreatePostPayload, bypassKey?: string): Promise<Post> => {
-  const response = await api.put<Post>(`/posts/${slug}`, post, {
+  const response = await api.put<any>(`/posts/${slug}`, post, {
     headers: bypassKey ? { 'x-admin-bypass': bypassKey } : {}
   });
-  return response.data;
+  const p = response.data;
+  return {
+    ...p,
+    author: {
+      id: p.id,
+      name: p.authorName,
+      avatar: p.authorAvatar || "https://api.dicebear.com/7.x/avataaars/svg?seed=fallback"
+    }
+  };
 };
 
 export const deletePost = async (slug: string, bypassKey?: string): Promise<void> => {
@@ -70,11 +87,25 @@ export const deletePost = async (slug: string, bypassKey?: string): Promise<void
 };
 
 export const getPostByCategory = async (category: string): Promise<Post[]> => {
-  const response = await api.get<Post[]>(`/posts?category=${category}`);
-  return response.data;
+  const response = await api.get<any[]>(`/posts?category=${category}`);
+  return response.data.map(p => ({
+    ...p,
+    author: {
+      id: p.id,
+      name: p.authorName,
+      avatar: p.authorAvatar || "https://api.dicebear.com/7.x/avataaars/svg?seed=fallback"
+    }
+  }));
 };
 
 export const getPostBySearch = async (search: string): Promise<Post[]> => {
-  const response = await api.get<Post[]>(`/posts?search=${search}`);
-  return response.data;
+  const response = await api.get<any[]>(`/posts?search=${search}`);
+  return response.data.map(p => ({
+    ...p,
+    author: {
+      id: p.id,
+      name: p.authorName,
+      avatar: p.authorAvatar || "https://api.dicebear.com/7.x/avataaars/svg?seed=fallback"
+    }
+  }));
 };

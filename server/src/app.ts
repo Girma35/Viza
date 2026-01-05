@@ -22,7 +22,19 @@ export async function buildApp() {
   });
 
   await app.register(cors, {
-    origin: process.env.CLIENT_URL || 'http://localhost:3000',
+    origin: (origin, cb) => {
+      const allowedOrigins = [
+        'http://localhost:3000',
+        'http://127.0.0.1:3000',
+        process.env.CLIENT_URL
+      ].filter(Boolean);
+
+      if (!origin || allowedOrigins.includes(origin)) {
+        cb(null, true);
+        return;
+      }
+      cb(new Error('Not allowed by CORS'), false);
+    },
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization', 'x-admin-bypass'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
