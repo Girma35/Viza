@@ -7,9 +7,10 @@ interface CategorySiloProps {
   title: string;
   posts: Post[];
   accentColor?: string;
+  injectAdAt?: number;
 }
 
-const CategorySilo: React.FC<CategorySiloProps> = ({ title, posts }) => {
+const CategorySilo: React.FC<CategorySiloProps> = ({ title, posts, injectAdAt }) => {
   return (
     <div className="py-12">
       <div className="flex justify-between items-end mb-12 magazine-border-b pb-4">
