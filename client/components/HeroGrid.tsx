@@ -26,7 +26,7 @@ const HeroGrid: React.FC<HeroGridProps> = ({ featured, trending }) => {
               <img
                 src={featured.image}
                 alt={featured.title}
-                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                className="w-full h-full object-cover transition-all duration-700"
               />
             </div>
             <div className="flex flex-col gap-6">

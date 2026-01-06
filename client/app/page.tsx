@@ -32,9 +32,10 @@ export default function Home() {
     const featured = posts.find(p => p.isFeatured);
     const trending = posts.filter(p => p.isTrending).slice(0, 3);
 
-    const aiLabPosts = posts.filter(p => p.category === 'AI Lab');
-    const techStackPosts = posts.filter(p => p.category === 'Tech Stack');
-    const businessPosts = posts.filter(p => p.category === 'Business Strategy');
+    const techNewsPosts = posts.filter(p => p.category === 'TECH_NEWS');
+    const learningPosts = posts.filter(p => p.category === 'LEARNING');
+    const roadmapsPosts = posts.filter(p => p.category === 'ROAD_MAPS');
+    const saasPosts = posts.filter(p => p.category === 'SAAS');
 
     return (
         <div className="min-h-screen flex flex-col font-sans transition-colors duration-500 bg-white dark:bg-black">
@@ -75,18 +76,23 @@ export default function Home() {
                                 <div className="lg:col-span-8 lg:pr-12 lg:magazine-border-r pb-12">
                                     <div className="space-y-24">
                                         <CategorySilo
-                                            title="AI Lab"
-                                            posts={aiLabPosts}
+                                            title="Tech news"
+                                            posts={techNewsPosts}
                                             accentColor="bg-black text-white"
                                         />
                                         <CategorySilo
-                                            title="Tech Stack"
-                                            posts={techStackPosts}
+                                            title="Learning"
+                                            posts={learningPosts}
                                             accentColor="bg-black text-white"
                                         />
                                         <CategorySilo
-                                            title="Business Strategy"
-                                            posts={businessPosts}
+                                            title="Road maps"
+                                            posts={roadmapsPosts}
+                                            accentColor="bg-black text-white"
+                                        />
+                                        <CategorySilo
+                                            title="SaaS"
+                                            posts={saasPosts}
                                             accentColor="bg-black text-white"
                                         />
                                     </div>

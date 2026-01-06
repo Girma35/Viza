@@ -15,7 +15,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, variant = 'standard' }) => {
             <span className="text-[9px] font-black uppercase tracking-widest opacity-50">{post.category}</span>
             <h3 className="text-lg font-black leading-tight group-hover:underline underline-offset-4">{post.title}</h3>
           </div>
-          <div className="w-16 h-16 shrink-0 overflow-hidden grayscale group-hover:grayscale-0 transition-all">
+          <div className="w-16 h-16 shrink-0 overflow-hidden transition-all">
             <img src={post.image} alt={post.title} className="w-full h-full object-cover" />
           </div>
         </div>
@@ -42,7 +42,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, variant = 'standard' }) => {
         <span className="border border-black dark:border-white px-3 py-1 rounded-full">{post.category}</span>
       </div>
 
-      <a href={`/article/${post.slug}`} className="block aspect-[4/3] overflow-hidden grayscale hover:grayscale-0 transition-all duration-700 mb-6 font-sans">
+      <a href={`/article/${post.slug}`} className="block aspect-[4/3] overflow-hidden transition-all duration-700 mb-6 font-sans">
         <img
           src={post.image}
           alt={post.title}

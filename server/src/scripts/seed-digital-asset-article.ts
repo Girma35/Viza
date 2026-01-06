@@ -20,7 +20,7 @@ async function main() {
         slug: "digital-asset-maturity-stablecoins-tokenization-2026",
         title: "Digital Asset Maturity in 2026: Stablecoins and Tokenization Enter Core Finance",
         excerpt: "January 2026 signals a turning point as regulatory clarity from the U.S. GENIUS Act propels stablecoins into mainstream cross-border payments, while institutional tokenization of real-world assets like bonds and real estate unlocks unprecedented liquidity and efficiency.",
-        category: "Business Strategy",
+        category: "LEARNING",
         content: `# Digital Asset Maturity in 2026: Stablecoins and Tokenization Enter Core Finance
 
 Imagine settling a multimillion-dollar cross-border payment in seconds, not days, with full transparency and minimal fees—or owning a fraction of prime real estate without the barriers of traditional investing. As we kick off January 2026, these scenarios are no longer futuristic; they mark the maturation of digital assets into the backbone of global financial infrastructure.

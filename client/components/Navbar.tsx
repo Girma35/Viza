@@ -31,11 +31,10 @@ const Navbar: React.FC = () => {
   };
 
   const navLinks = [
-    { name: 'AI Lab', href: '#/category/ai' },
-    { name: 'Tech Stack', href: '#/category/tech' },
-    { name: 'Strategy', href: '#/category/business' },
-    { name: 'Podcasts', href: '#/podcasts' },
-    { name: 'Events', href: '#/events' },
+    { name: 'Tech news', href: '/#/category/tech-news' },
+    { name: 'Learning', href: '/#/category/learning' },
+    { name: 'Road maps', href: '/#/category/road-maps' },
+    { name: 'SaaS', href: '/#/category/saas' },
   ];
 
   return (

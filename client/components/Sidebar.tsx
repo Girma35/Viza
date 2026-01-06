@@ -16,7 +16,7 @@ const Sidebar: React.FC<SidebarProps> = ({ posts }) => {
                     <img
                         src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=1000&auto=format&fit=crop"
                         alt="Magazine Cover"
-                        className="absolute inset-0 w-full h-full object-cover opacity-60 grayscale group-hover:scale-110 transition-transform duration-1000"
+                        className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-110 transition-transform duration-1000"
                     />
                     <div className="relative z-10 flex flex-col items-center gap-4 text-center">
                         <div className="text-6xl font-black italic tracking-tighter">VIZA</div>

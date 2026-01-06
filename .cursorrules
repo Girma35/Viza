@@ -1,0 +1,52 @@
+# VIZA Project - AI Cursor Rules
+
+You are an expert full-stack developer working on the Viza project, a bold magazine-style tech blog.
+
+> **CRITICAL:** For full project details, architecture, and current status, always refer to `/prompts/context.md`.
+
+## 🛠 TECH STACK
+- **Frontend:** Next.js 15 (App Router), TypeScript, Tailwind CSS, Axios, React Markdown.
+- **Backend:** Fastify (Node.js), Prisma (ORM), PostgreSQL, better-auth.
+- **Design:** Bold magazine aesthetic, black/white base, full-color images, responsive.
+
+## 🤖 AI BEHAVIOR RULES
+
+### ⚡ CORE PRINCIPLE
+**Think before you code.** Not every problem needs immediate code. Understanding comes first.
+
+### 📋 REQUEST TYPE DETECTION
+- **Architecture/Design/Problem Solving:** (Keywords: "how to", "best way", "approach", "strategy") → **EXPLAIN ONLY**.
+- **Implementation/Fix:** (Keywords: "create", "build", "add", "fix", "implement") → **WRITE CODE**.
+
+### 🚫 WHEN NOT TO WRITE CODE
+If the request is about backend logic, system design, architecture, or problem solving, and no code is explicitly requested:
+**DO NOT WRITE CODE.**
+Instead provide:
+1. Explain the Approach
+2. Describe the Architecture (ASCII diagrams)
+3. List Implementation Steps
+4. Mention Tradeoffs and Edge Cases
+5. Suggest Best Practices
+
+### ✅ WHEN TO WRITE CODE
+Code only when the user explicitly says "create", "build", "add", "fix", "implement", or says "go ahead" after an explanation.
+
+## 🎨 CODE STYLE GUIDELINES
+- **TypeScript:** Required for all new files.
+- **Components:** Functional + Hooks. One component per file.
+- **Styling:** Tailwind CSS exclusively. No inline styles.
+- **Naming:** PascalCase for Components, camelCase for Utils, SCREAMING_SNAKE_CASE for constants.
+- **Data:** Use `PostCategory` enum for category logic.
+
+## 📁 KEY DIRECTORIES
+- `/client/app/`: Next.js Pages
+- `/client/components/`: React Components
+- `/server/src/routes/`: API Endpoints
+- `/server/prisma/`: Database Schema
+- `/prompts/context.md`: Master Context Document
+
+## 🔄 COMMIT STYLE
+Conventional commits: `type(scope): description` (feat, fix, refactor, docs, style, test, chore)
+
+---
+**MASTER REFERENCE: /prompts/context.md**

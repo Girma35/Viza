@@ -20,7 +20,7 @@ async function main() {
         slug: "ai-driven-inflation-2026-risk",
         title: "AI-Driven Inflation: 2026's Overlooked Risk to Markets and Valuations",
         excerpt: "Investors warn that the multi-trillion-dollar AI infrastructure boom—gobbling up energy and chips—is fueling overlooked inflation pressures in 2026, potentially forcing central banks to pause rate cuts and compressing high-growth AI stock valuations.",
-        category: "Business Strategy",
+        category: "SAAS",
         content: `# AI-Driven Inflation: 2026's Overlooked Risk to Markets and Valuations
 
 What if the very force propelling stock markets to record highs—the explosive AI investment boom—becomes the spark that reignites stubborn inflation? As we enter 2026 amid continued AI euphoria, a growing chorus of investors and analysts is sounding the alarm: AI-driven inflation could be the most underappreciated threat, capable of derailing rate-cutting cycles and hitting elevated tech valuations hard.

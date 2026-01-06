@@ -121,7 +121,7 @@ export default function ArticlePage() {
                     <aside className="lg:col-span-3 hidden lg:block">
                         <div className="sticky top-32 flex flex-col gap-12">
                             <div className="flex flex-col gap-6">
-                                <div className="w-20 h-20 rounded-none bg-black overflow-hidden grayscale">
+                                <div className="w-20 h-20 rounded-none bg-black overflow-hidden">
                                     <img src={post.author.avatar} alt={post.author.name} className="w-full h-full object-cover" />
                                 </div>
                                 <div className="flex flex-col gap-1">

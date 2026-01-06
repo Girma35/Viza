@@ -20,7 +20,7 @@ async function main() {
         slug: "rise-agentic-ai-finance-2026",
         title: "The Rise of Agentic AI in Finance: From Generative Hype to Autonomous Action",
         excerpt: "As finance moves beyond generative AI chatbots, agentic systems are emerging to autonomously handle multi-step workflows like fraud detection, loan processing, and reconciliation—creating demand for AI generalists who orchestrate these intelligent agents.",
-        category: "Business Strategy",
+        category: "TECH_NEWS",
         content: `# The Rise of Agentic AI in Finance: From Generative Hype to Autonomous Action
 
 Imagine a world where your bank's fraud detection doesn't just flag suspicious transactions—it autonomously investigates, freezes accounts if needed, notifies you, and even initiates refunds, all without human intervention. This isn't distant science fiction; it's the dawn of agentic AI in finance, marking a profound shift from the generative AI era of chatbots and content creation to truly autonomous systems that plan, reason, and execute complex tasks.
