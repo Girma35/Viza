@@ -13,7 +13,11 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
-COPY --from=builder /app/public ./public
+# Only copy public if it exists (using wildcard hack or just manual check)
+# But standard Next.js Dockerfile assumes it exists.
+# Since we don't have one, we REMOVE this line.
+# COPY --from=builder /app/public ./public  <-- CAUSING ERROR
+
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
