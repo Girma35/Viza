@@ -1,5 +1,5 @@
 
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, PostCategory } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 import pg from 'pg';
 import 'dotenv/config';
@@ -20,7 +20,7 @@ async function main() {
         slug: "ces-2026-ai-everything-hardware-leap",
         title: "CES 2026: \"AI Everything\" Delivers a Reality Check with Physical AI and Hardware Breakthroughs",
         excerpt: "CES 2026 in Las Vegas shifts AI from cloud hype to embodied intelligence in the physical world, spotlighting humanoid robots, innovative gadgets, tri-fold smartphones, and next-gen chips from Nvidia, AMD, and Intel.",
-        category: "ROAD_MAPS",
+        category: PostCategory.ROAD_MAPS,
         content: `# CES 2026: "AI Everything" Delivers a Reality Check with Physical AI and Hardware Breakthroughs
 
 Imagine walking into your kitchen one morning, and a humanoid robot is already brewing your coffee, folding laundry from the dryer, and planning your meals based on what's in the fridge. Sounds like science fiction? At CES 2026 in Las Vegas, that future felt tantalizingly close.

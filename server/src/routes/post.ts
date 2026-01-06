@@ -1,5 +1,6 @@
 import { FastifyInstance, FastifyPluginAsync } from "fastify";
 import { adminOnly } from "../lib/middleware.js";
+import { PostCategory } from "@prisma/client";
 
 const PostRoute: FastifyPluginAsync = async (server: FastifyInstance) => {
 
@@ -36,7 +37,7 @@ const PostRoute: FastifyPluginAsync = async (server: FastifyInstance) => {
     console.log(`🐢 CACHE MISS: ${cacheKey}`);
     const posts = await server.prisma.post.findMany({
       where: {
-        ...(category && { category }),
+        ...(category && { category: category as PostCategory }),
         ...(author && { authorName: author }),
         ...(search && {
           title: { contains: search, mode: 'insensitive' },
@@ -82,7 +83,8 @@ const PostRoute: FastifyPluginAsync = async (server: FastifyInstance) => {
       title: string;
       excerpt?: string;
       content?: string;
-      category: string;
+
+      category: PostCategory;
       authorName: string;
       authorAvatar?: string;
       image?: string;
@@ -101,8 +103,8 @@ const PostRoute: FastifyPluginAsync = async (server: FastifyInstance) => {
       const updateData = {
         ...data,
         publishedAt: data.publishedAt ? new Date(data.publishedAt) : undefined,
-        isFeatured: data.isFeatured === true || data.isFeatured === 'true',
-        isTrending: data.isTrending === true || data.isTrending === 'true',
+        isFeatured: data.isFeatured,
+        isTrending: data.isTrending,
       };
 
       const post = await server.prisma.post.update({
@@ -146,7 +148,8 @@ const PostRoute: FastifyPluginAsync = async (server: FastifyInstance) => {
       title: string;
       excerpt?: string;
       content?: string;
-      category: string;
+
+      category: PostCategory;
       authorName: string;
       authorAvatar?: string;
       image?: string;
