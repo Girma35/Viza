@@ -11,26 +11,19 @@ services:
       - pgdata:/var/lib/postgresql/data
     networks:
       - viza-net
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
 
   # FASTIFY BACKEND
   api:
     build: ./server
     restart: always
     environment:
-      # Use the service name 'db' as the host
-      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?schema=public
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
       PORT: 8000
-      # Allow CORS from the web container's public URL/IP
-      CLIENT_URL: http://${DROPLET_IP}:3000
-      NODE_ENV: production
+      HOST: 0.0.0.0 
+      # Updated to port 80 to match the new Client URL
+      CLIENT_URL: http://167.71.184.43
     depends_on:
-      db:
-        condition: service_healthy
+      - db
     networks:
       - viza-net
     ports:
@@ -41,14 +34,13 @@ services:
     build: ./client
     restart: always
     environment:
-      # Browser needs the public IP/Domain to reach API
-      NEXT_PUBLIC_API_URL: http://${DROPLET_IP}:8000/api
+      NEXT_PUBLIC_API_URL: http://167.71.184.43:8000
     depends_on:
       - api
     networks:
       - viza-net
     ports:
-      - "80:3000"
+      - "80:3000"  # <--- FIX: Visitors now use standard HTTP (Port 80)
 
 networks:
   viza-net:
