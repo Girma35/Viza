@@ -19,6 +19,7 @@ import {
     AlertCircle
 } from 'lucide-react';
 import Link from 'next/link';
+import { allCategories } from '@/utils/category-mapper';
 
 function AdminConsole() {
     const router = useRouter();
@@ -51,7 +52,7 @@ function AdminConsole() {
         title: '',
         excerpt: '',
         content: '',
-        category: 'AI Lab',
+        category: 'TECH_NEWS',
         authorName: '',
         authorAvatar: '',
         publishedAt: new Date().toISOString().split('T')[0],
@@ -254,9 +255,11 @@ function AdminConsole() {
                                             onChange={handleChange}
                                             className="w-full bg-transparent border border-black dark:border-white p-4 text-[11px] font-black uppercase tracking-widest focus:outline-none appearance-none cursor-pointer"
                                         >
-                                            <option value="AI Lab">AI Lab (Intelligence)</option>
-                                            <option value="Tech Stack">Tech Stack (Infrastructure)</option>
-                                            <option value="Business Strategy">Business Strategy (Capital)</option>
+                                            {allCategories.map((cat) => (
+                                                <option key={cat.enum} value={cat.enum} className="bg-white dark:bg-black">
+                                                    {cat.display.toUpperCase()} ({cat.enum})
+                                                </option>
+                                            ))}
                                         </select>
                                     </div>
 
