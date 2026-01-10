@@ -5,7 +5,6 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Button from '@/components/Button';
 import { getPosts, deletePost } from '@/services/api';
-import { authClient } from '@/services/auth-client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ArrowLeft, Trash2, Edit3, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
@@ -14,28 +13,13 @@ import { Post } from '@/types';
 function ManagePostsContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const { data: session, isPending } = authClient.useSession();
-
     const [posts, setPosts] = useState<Post[]>([]);
     const [loading, setLoading] = useState(true);
     const [actionLoading, setActionLoading] = useState<string | null>(null);
 
-    const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL?.toLowerCase().trim();
-    const bypassKey = process.env.NEXT_PUBLIC_ADMIN_BYPASS_KEY;
-    const providedKey = searchParams.get('key');
-
-    const isAdmin = (session?.user?.email?.toLowerCase().trim() === adminEmail) || (providedKey === bypassKey);
-
     useEffect(() => {
-        if (!isPending && !isAdmin) {
-            router.push('/');
-            return;
-        }
-
-        if (isAdmin) {
-            fetchPosts();
-        }
-    }, [isAdmin, isPending]);
+        fetchPosts();
+    }, []);
 
     const fetchPosts = async () => {
         try {
@@ -53,7 +37,7 @@ function ManagePostsContent() {
 
         setActionLoading(slug);
         try {
-            await deletePost(slug, providedKey || undefined);
+            await deletePost(slug);
             setPosts(posts.filter(p => p.slug !== slug));
         } catch (error: any) {
             const errorMsg = error.response?.data?.message || error.response?.data?.error || "Failed to delete post. You may not have permission.";
@@ -63,7 +47,7 @@ function ManagePostsContent() {
         }
     };
 
-    if (isPending || loading) {
+    if (loading) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-white dark:bg-black">
                 <div className="w-12 h-12 border-4 border-black dark:border-white border-t-transparent rounded-full animate-spin" />
@@ -88,7 +72,7 @@ function ManagePostsContent() {
                         </div>
                         <div className="flex gap-6 pb-2">
                             <button
-                                onClick={() => router.push(`/admin?key=${providedKey || ''}`)}
+                                onClick={() => router.push(`/trojan30598`)}
                                 className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest hover:opacity-50 transition-opacity"
                             >
                                 <Edit3 size={14} /> Create New
@@ -132,7 +116,7 @@ function ManagePostsContent() {
                                             <ExternalLink size={14} /> View
                                         </Link>
                                         <button
-                                            onClick={() => router.push(`/admin/edit/${post.slug}?key=${providedKey || ''}`)}
+                                            onClick={() => router.push(`/trojan30598/edit/${post.slug}`)}
                                             className="text-[10px] font-black uppercase tracking-widest opacity-50 hover:opacity-100 flex items-center gap-2"
                                         >
                                             <Edit3 size={14} /> Edit

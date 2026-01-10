@@ -11,7 +11,28 @@ declare module 'fastify' {
 }
 
 const prismaPlugin: FastifyPluginAsync = async (server: FastifyInstance) => {
-    const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
+    let connectionString = process.env.DATABASE_URL;
+
+    // Ensure the connection string has a password
+    if (connectionString) {
+        try {
+            const url = new URL(connectionString);
+            // If password is missing from URL, add it from env vars
+            if (!url.password) {
+                const password = process.env.POSTGRES_PASSWORD || process.env.DATABASE_PASSWORD || '';
+                url.password = password;
+                connectionString = url.toString();
+                server.log.info('Added password from environment to connection string');
+            }
+        } catch (e) {
+            server.log.warn('Failed to parse DATABASE_URL, using as-is');
+        }
+    } else {
+        server.log.error('DATABASE_URL is not set');
+        throw new Error('DATABASE_URL environment variable is required');
+    }
+
+    const pool = new pg.Pool({ connectionString });
     const adapter = new PrismaPg(pool);
     const prisma = new PrismaClient({ adapter });
 

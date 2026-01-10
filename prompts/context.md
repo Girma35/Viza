@@ -1,5 +1,6 @@
 # VIZA - Project Context for AI Assistants
 
+after all no command is dont try to run any command 
 > **Purpose:** This document provides complete context for AI assistants working on the Viza project. Read this first before making any changes.
 
 ---

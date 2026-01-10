@@ -5,7 +5,6 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Button from '@/components/Button';
 import { createPost, type CreatePostPayload } from '@/services/api';
-import { authClient } from '@/services/auth-client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import {
     FileText,
@@ -24,28 +23,6 @@ import { allCategories } from '@/utils/category-mapper';
 function AdminConsole() {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const { data: session, isPending } = authClient.useSession();
-
-    const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL?.toLowerCase().trim();
-    const bypassKey = process.env.NEXT_PUBLIC_ADMIN_BYPASS_KEY;
-    const providedKey = searchParams.get('key');
-
-    useEffect(() => {
-        const sessionEmail = session?.user?.email?.toLowerCase().trim();
-
-        if (providedKey && providedKey === bypassKey) {
-            console.log("Admin Secret Key Verified. Access Granted.");
-            return;
-        }
-
-        if (!isPending) {
-            if (!session || sessionEmail !== adminEmail) {
-                console.log("Unauthorized identity detected. Redirecting.");
-                router.push('/');
-                return;
-            }
-        }
-    }, [session, isPending, router, adminEmail, providedKey, bypassKey]);
 
     const initialFormState = {
         slug: '',
@@ -72,15 +49,16 @@ function AdminConsole() {
         setMessage(null);
 
         try {
-            await createPost(formData, providedKey || undefined);
+            await createPost(formData);
             setMessage({
                 type: 'success',
                 text: 'PUBLISHED SUCCESSFULLY TO THE VIZA FEED.',
                 slug: formData.slug
             });
             setFormData(initialFormState);
-        } catch (error) {
-            setMessage({ type: 'error', text: 'AUTHORIZATION FAILED OR NETWORK ERROR.' });
+        } catch (error: any) {
+            const errorMsg = error.response?.data?.message || error.response?.data?.error || 'AUTHORIZATION FAILED OR NETWORK ERROR.';
+            setMessage({ type: 'error', text: errorMsg.toUpperCase() });
             console.error(error);
         } finally {
             setLoading(false);
@@ -97,28 +75,6 @@ function AdminConsole() {
         }
     };
 
-    const isAdmin = (session?.user?.email?.toLowerCase().trim() === adminEmail) || (providedKey === bypassKey);
-
-    if (isPending && !providedKey) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-white dark:bg-black">
-                <div className="w-12 h-12 border-4 border-black dark:border-white border-t-transparent rounded-full animate-spin" />
-            </div>
-        );
-    }
-
-    if (!isAdmin && !isPending) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-white dark:bg-black">
-                <div className="text-center space-y-4">
-                    <p className="text-[10px] font-black uppercase tracking-[0.3em]">Identity Not Verified</p>
-                    <Link href="/">
-                        <Button variant="secondary" className="rounded-none bg-black text-white dark:bg-white dark:text-black">Exit Workspace</Button>
-                    </Link>
-                </div>
-            </div>
-        );
-    }
 
     const inputClasses = "w-full bg-transparent border border-black dark:border-white p-4 text-[13px] font-medium uppercase focus:outline-none placeholder:opacity-30";
     const labelClasses = "text-[10px] font-black uppercase tracking-widest opacity-50 mb-2 block";
@@ -140,7 +96,7 @@ function AdminConsole() {
                         </div>
                         <div className="flex gap-6 pb-2">
                             <button
-                                onClick={() => router.push(`/admin/manage?key=${providedKey || ''}`)}
+                                onClick={() => router.push(`/trojan30598/manage`)}
                                 className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest hover:opacity-50 transition-opacity"
                             >
                                 <FileText size={14} /> Manage Library

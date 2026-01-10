@@ -5,7 +5,18 @@ import { PrismaPg } from '@prisma/adapter-pg';
 import pg from 'pg';
 import { FastifyRequest, FastifyReply } from "fastify";
 
-const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
+if (!process.env.DATABASE_URL) {
+    console.error("❌ DATABASE_URL is not defined in the environment!");
+}
+
+const poolConfig: any = { connectionString: process.env.DATABASE_URL };
+
+if (process.env.DATABASE_URL && !process.env.DATABASE_URL.includes(':') && !process.env.DATABASE_URL.includes('@')) {
+    poolConfig.password = process.env.DATABASE_PASSWORD || process.env.POSTGRES_PASSWORD || '';
+}
+
+const pool = new pg.Pool(poolConfig);
+
 const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 

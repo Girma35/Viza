@@ -50,10 +50,8 @@ export const getPostBySlug = async (slug: string): Promise<Post> => {
   };
 };
 
-export const createPost = async (post: CreatePostPayload, bypassKey?: string): Promise<Post> => {
-  const response = await api.post<any>("/posts", post, {
-    headers: bypassKey ? { 'x-admin-bypass': bypassKey } : {}
-  });
+export const createPost = async (post: CreatePostPayload): Promise<Post> => {
+  const response = await api.post<any>("/posts", post);
   const p = response.data;
   return {
     ...p,
@@ -65,10 +63,8 @@ export const createPost = async (post: CreatePostPayload, bypassKey?: string): P
   };
 };
 
-export const updatePost = async (slug: string, post: CreatePostPayload, bypassKey?: string): Promise<Post> => {
-  const response = await api.put<any>(`/posts/${slug}`, post, {
-    headers: bypassKey ? { 'x-admin-bypass': bypassKey } : {}
-  });
+export const updatePost = async (slug: string, post: CreatePostPayload): Promise<Post> => {
+  const response = await api.put<any>(`/posts/${slug}`, post);
   const p = response.data;
   return {
     ...p,
@@ -80,10 +76,8 @@ export const updatePost = async (slug: string, post: CreatePostPayload, bypassKe
   };
 };
 
-export const deletePost = async (slug: string, bypassKey?: string): Promise<void> => {
-  await api.delete(`/posts/${slug}`, {
-    headers: bypassKey ? { 'x-admin-bypass': bypassKey } : {}
-  });
+export const deletePost = async (slug: string): Promise<void> => {
+  await api.delete(`/posts/${slug}`);
 };
 
 export const getPostByCategory = async (category: string): Promise<Post[]> => {

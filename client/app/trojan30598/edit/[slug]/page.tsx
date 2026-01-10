@@ -5,7 +5,6 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Button from '@/components/Button';
 import { getPostBySlug, updatePost, type CreatePostPayload } from '@/services/api';
-import { authClient } from '@/services/auth-client';
 import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import {
     CheckCircle2,
@@ -13,13 +12,12 @@ import {
     AlertCircle
 } from 'lucide-react';
 import Link from 'next/link';
+import { allCategories } from '@/utils/category-mapper';
 
 function EditConsole() {
     const router = useRouter();
     const params = useParams();
     const searchParams = useSearchParams();
-    const { data: session, isPending } = authClient.useSession();
-
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
     const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
@@ -29,7 +27,7 @@ function EditConsole() {
         title: '',
         excerpt: '',
         content: '',
-        category: 'AI Lab',
+        category: 'TECH_NEWS',
         authorName: '',
         authorAvatar: '',
         publishedAt: '',
@@ -39,22 +37,11 @@ function EditConsole() {
         isTrending: false
     });
 
-    const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL?.toLowerCase().trim();
-    const bypassKey = process.env.NEXT_PUBLIC_ADMIN_BYPASS_KEY;
-    const providedKey = searchParams.get('key');
-
-    const isAdmin = (session?.user?.email?.toLowerCase().trim() === adminEmail) || (providedKey === bypassKey);
-
     useEffect(() => {
-        if (!isPending && !isAdmin) {
-            router.push('/');
-            return;
-        }
-
-        if (isAdmin && params.slug) {
+        if (params.slug) {
             fetchPost();
         }
-    }, [isAdmin, isPending, params.slug]);
+    }, [params.slug]);
 
     const fetchPost = async () => {
         try {
@@ -87,14 +74,14 @@ function EditConsole() {
         setMessage(null);
 
         try {
-            await updatePost(params.slug as string, formData, providedKey || undefined);
+            await updatePost(params.slug as string, formData);
             setMessage({
                 type: 'success',
                 text: 'MANUSCRIPT UPDATED SUCCESSFULLY.'
             });
             // If slug changed, redirect to new slug's edit page
             if (formData.slug !== params.slug) {
-                router.push(`/admin/edit/${formData.slug}?key=${providedKey || ''}`);
+                router.push(`/trojan30598/edit/${formData.slug}`);
             }
         } catch (error: any) {
             const errorMsg = error.response?.data?.message || error.response?.data?.error || 'UPDATE FAILED. CHECK PERMISSIONS.';
@@ -115,7 +102,7 @@ function EditConsole() {
         }
     };
 
-    if (isPending || loading) {
+    if (loading) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-white dark:bg-black">
                 <div className="w-12 h-12 border-4 border-black dark:border-white border-t-transparent rounded-full animate-spin" />
@@ -141,7 +128,7 @@ function EditConsole() {
                                 Edit<br />Manuscript
                             </h1>
                         </div>
-                        <button onClick={() => router.push(`/admin/manage?key=${providedKey || ''}`)} className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest hover:opacity-50 transition-opacity pb-2">
+                        <button onClick={() => router.push(`/trojan30598/manage`)} className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest hover:opacity-50 transition-opacity pb-2">
                             <ArrowLeft size={14} /> Back to Library
                         </button>
                     </div>
@@ -243,9 +230,11 @@ function EditConsole() {
                                             onChange={handleChange}
                                             className="w-full bg-transparent border border-black dark:border-white p-4 text-[11px] font-black uppercase tracking-widest focus:outline-none appearance-none cursor-pointer"
                                         >
-                                            <option value="AI Lab">AI Lab (Intelligence)</option>
-                                            <option value="Tech Stack">Tech Stack (Infrastructure)</option>
-                                            <option value="Business Strategy">Business Strategy (Capital)</option>
+                                            {allCategories.map((cat) => (
+                                                <option key={cat.enum} value={cat.enum} className="bg-white dark:bg-black">
+                                                    {cat.display.toUpperCase()} ({cat.enum})
+                                                </option>
+                                            ))}
                                         </select>
                                     </div>
 
